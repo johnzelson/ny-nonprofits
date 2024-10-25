@@ -1,0 +1,162 @@
+BMF_column,col_title,code,desc,short_desc
+INCOME_CD,Income Category,define,Income Codes relate to the amount of income shown on the most recent Form 990 series return. The parameters for selecting income codes are the same as for asset codes.,Income Codes relate to the amount of income shown on the most recent Form 990 series return. The parameters for selecting income codes are the same as for asset codes.
+INCOME_CD,Income Category,0,0,0 ($)
+INCOME_CD,Income Category,1,"1 - 9,999",to 1K ($)
+INCOME_CD,Income Category,2,"10,000 - 24,999",10k to 24k ($)
+INCOME_CD,Income Category,3,"25,000 - 99,999",25k to 100k ($)
+INCOME_CD,Income Category,4,"100,000 - 499,999",100k to 500k($)
+INCOME_CD,Income Category,5,"500,000 - 999,999",500k to 1M ($)
+INCOME_CD,Income Category,6,"1,000,000 - 4,999,999",1M to 5M ($)
+INCOME_CD,Income Category,7,"5,000,000 - 9,999,999",5M to 10M ($)
+INCOME_CD,Income Category,8,"10,000,000 - 49,999,999",10M to 500M ($)
+INCOME_CD,Income Category,9,"50,000,000 and greater",500M and more ($)
+ASSET_CD,Asset Category,define,"Asset Codes relate to the amount of assets shown on the most recent Form 990 series return filed by the organization. Requesters may select organizations with a code equal to, equal to or greater than, or equal to or less than the asset code desired.","Asset Codes relate to the amount of assets shown on the most recent Form 990 series return filed by the organization. Requesters may select organizations with a code equal to, equal to or greater than, or equal to or less than the asset code desired."
+ASSET_CD,Asset Category,0,0,0 ($)
+ASSET_CD,Asset Category,1,"1 - 9,999",to 1K ($)
+ASSET_CD,Asset Category,2,"10,000 - 24,999",10k to 24k ($)
+ASSET_CD,Asset Category,3,"25,000 - 99,999",25k to 100k ($)
+ASSET_CD,Asset Category,4,"100,000 - 499,999",100k to 500k($)
+ASSET_CD,Asset Category,5,"500,000 - 999,999",500k to 1M ($)
+ASSET_CD,Asset Category,6,"1,000,000 - 4,999,999",1M to 5M ($)
+ASSET_CD,Asset Category,7,"5,000,000 - 9,999,999",5M to 10M ($)
+ASSET_CD,Asset Category,8,"10,000,000 - 49,999,999",10M to 500M ($)
+ASSET_CD,Asset Category,9,"≥ 50,000,000",50M and greater ($)
+AFFILIATION,affiliation,define,Affiliation Code defines the organizational grouping. (eg. Independent or an affiliate),Affiliation Code defines the organizational grouping. (eg. Independent or an affiliate)
+AFFILIATION,affiliation,0,Code Not Defined,Code Not Defined
+AFFILIATION,affiliation,1,"Central - This code is used if the organization is a central type organization (no group exemption) of a National, Regional or Geographic grouping of organizations.",Central Org  - No Group Exmpt
+AFFILIATION,affiliation,2,"Intermediate - This code is used if the organization is an intermediate organization (no group exemption) of a National, Regional or Geographic grouping of organizations (such as a state headquarters of a national organization).",Intermediate Org - No Group Exmpt
+AFFILIATION,affiliation,3,"Independent - This code is used if the organization is an independent organization or an independent auxiliary (i.e., not affiliated with a National, Regional, or Geographic grouping of organizations).",Independent
+AFFILIATION,affiliation,6,Central - This code is used if the organization is a parent (group ruling) and is not a church or 501(c)(1) organization.,"Central  - Group, not Church/501c3"
+AFFILIATION,affiliation,7,"Intermediate - This code is used if the organization is an group exemption intermediate organization of a National, Regional or Geographic grouping of organizations.",Intermediate -Group Exmpt
+AFFILIATION,affiliation,8,Central - This code is used if the organization is a parent (group ruling) and is a church or 501(c)(1) organization.,"(8) Central-Group Exmpt, Church/501c3"
+AFFILIATION,affiliation,9,Subordinate - This code is used if the organization is a subordinate in a group ruling.,(9) Subordinate (in Group)
+FOUNDATION,Foundation Type,define,"Foundation Code.  The program can select either the single foundation code requested from the following list, or one of the following ranges of codes:  02-04 2. 10-15 3. 16-18 4. 10-18","Foundation Code.  The program can select either the single foundation code requested from the following list, or one of the following ranges of codes:"
+FOUNDATION,Foundation Type,0,All organizations except 501(c)(3),Not 501(c)(3)
+FOUNDATION,Foundation Type,2,Private operating foundation exempt from paying excise taxes or investment income,Priv. Operating Found
+FOUNDATION,Foundation Type,3,Private operating foundation (other),Priv. Operating Found (other)
+FOUNDATION,Foundation Type,4,Private nonoperating foundation,Private Nonoperating Found
+FOUNDATION,Foundation Type,9,Suspense,Found TBD (Suspense)
+FOUNDATION,Foundation Type,10,Church,Church
+FOUNDATION,Foundation Type,11,School,School
+FOUNDATION,Foundation Type,12,Hospital or medical research organization,Hospital/Medical Research
+FOUNDATION,Foundation Type,13,Organization which operates for benefit of college or university and is owned or operated by a governmental unit,"Gov, benefits College/U"
+FOUNDATION,Foundation Type,14,Governmental unit,Governmental Unit
+FOUNDATION,Foundation Type,15,Organization which receives a substantial part of its support from a governmental unit or the general public,Receives support from Gov or Public
+FOUNDATION,Foundation Type,16,"Organization that normally receives no more than one-third of its support from gross investment income and unrelated business income and at the same time more than one-third of its support from contributions, fees, and gross receipts related to exempt purposes.",Org with 1/3 income  rules
+FOUNDATION,Foundation Type,17,Organizations operated solely for the benefit of and in conjunction with organizations described in 10 through 16 above.,Supporting Org
+FOUNDATION,Foundation Type,18,Organization organized and operated to test for public safety,Public Safety
+FOUNDATION,Foundation Type,21,Foundation Code not defined,Found Code not defined
+FOUNDATION,Foundation Type,22,Foundation Code not defined,Foundation Code not defined
+FOUNDATION,Foundation Type,23,Foundation Code not defined,Foundation Code not defined
+FOUNDATION,Foundation Type,24,Foundation Code not defined,Foundation Code not defined
+ORGANIZATION,Organization Type,define,IRS Gneral Organization Type,IRS Gneral Organization Type
+ORGANIZATION,Organization Type,0,Unknown,Unknown
+ORGANIZATION,Organization Type,1,Corporation,Corporation
+ORGANIZATION,Organization Type,2,Trust,Trust
+ORGANIZATION,Organization Type,3,Co-operative,Co-operative
+ORGANIZATION,Organization Type,4,Partnership,Partnership
+ORGANIZATION,Organization Type,5,Association,Association
+ORGANIZATION,Organization Type,6,Code Not Defined,Code Not Defined
+ASSET_AMT,Asset Amount,define,Asset Amount is an amount from the most recent Form 990 series return filed by the organization. This field is dollars only.,Assets ($)
+INCOME_AMT,Income Amount,define,"Income Amount is a computer generated amount from the most recent Form 990 series return filed by the organization. Income Amount is computer generated using Part VIII, Line 1h(A), Contributions/Gifts; plus Part VIII, Line 2g(A), Program Revenue; plus Part VIII, Line 3(A), Investment Income; plus Part VIII, Line 4(A), Tax Exempt Bonds proceeds; plus Part VIII, Line 5(A), Royalties Income; plus Part VIII, Line 6d(A), Rental Income computer generated; plus Part VIII, Line 7d(A), Net Gain/Loss amount; plus Part VIII, Line 8c(A), Net Fundraising amount computer generated; plus Part VIII, Line 9c(A), Net Gaming amount computer generated; plus Part VIII, Line 10c(A), Net Inventory Sales computer generated; plus Part VIII, Line 11e(A), Miscellaneous Revenue. This field is dollars only.  On Form 990-EZ, Income Amount is a computer generated amount using Part 1, Line 1, Total Contributions/Gifts; plus Part I, Line 2, Program Services amount; plus Part 1, Line 2, Dues and Assessments; plus Part I, Line 4, Investment Income; plus Part I, Line 5c, Sale of Assets; plus Part I, Line 6c, Net Income fundraising; plus, Part I, Line 7c, Gross Profit computer generated; plus, Part I, Line 8, Other Revenue. This field is dollars only.",Income ($)
+REVENUE_AMT,Revenue Amount,define,"This is the amount from Part VIII, Line 12(A) for Form 990 or Part 1, Line 9 for Form 990-EZ. This field is dollars only.",Revenue ($)
+RULING DATE,Ruling Date,define,This is the month and year(YYYYMM)of a ruling or determination letter recognizing the organization's exempt status.,This is the month and year(YYYYMM)of a ruling or determination letter recognizing the organization's exempt status.
+GROUP,Parent Org Code,define,This is an internal number assigned to central/parent organizations holding group determination letters.,This is an internal number assigned to central/parent organizations holding group determination letters.
+FILING_REQ_CD,Return Types Required,define,This indicates the primary return(s) the organization is required to file.,This indicates the primary return(s) the organization is required to file.
+FILING_REQ_CD,Return Types Required,3,990 - Group return,990 - Group return
+FILING_REQ_CD,Return Types Required,7,990 - Government 501(c)(1),990 - Government 501(c)(1)
+FILING_REQ_CD,Return Types Required,1,990 (all other) or 990EZ return,990 (all other) or 990EZ return
+FILING_REQ_CD,Return Types Required,2,"990 - Not required to file (income less than $25,000)",990 - Not required  (income < $25k)
+FILING_REQ_CD,Return Types Required,6,990 - Not required to file (church),990 - Not required  (church)
+FILING_REQ_CD,Return Types Required,13,990 - Not required to file (religious organization),990 - Not required (religious organization)
+FILING_REQ_CD,Return Types Required,14,990 - Not required to file (instrumentalities of states or political subdivisions),990 - Not required (gov)
+FILING_REQ_CD,Return Types Required,0,990 - Not required to file(all other),990 - Not required to file(all other)
+PF_FILING_REQ_CD,Return Types Required,define,FR(Postion 3) Form Numbers,FR(Postion 3) Form Numbers
+PF_FILING_REQ_CD,Return Types Required,1,990 - PF return,990 - PF return
+PF_FILING_REQ_CD,Return Types Required,0,No 990PF return,No 990PF return
+ACCT_PD,Accounting Period,define,"This designates the accounting period ending date (Jan - Dec) of the organization. Under Standard Extract selection criteria, only one specific two digit (01-12) accounting period may be selected for extraction.","This designates the accounting period ending date (Jan - Dec) of the organization. Under Standard Extract selection criteria, only one specific two digit (01-12) accounting period may be selected for extraction."
+SUBSECTION,Subsection Code,define,Subsection Codes are the codes shown under section 501(c) of the Internal Revenue Code of 1986 which define the category under which an organization may be exempt. A table of subsection and classification codes can be found on page 6. From one to three subsection codes may be selected per request. If classification code is also selected only one subsection code may be selected.,Subsection Codes are the codes shown under section 501(c) of the Internal Revenue Code of 1986 which define the category under which an organization may be exempt. A table of subsection and classification codes can be found on page 6. From one to three subsection codes may be selected per request. If classification code is also selected only one subsection code may be selected.
+SUBSECTION,SUBSECTION,1,Corporations Organized Under Act of Congress (including Federal Credit Unions,Corporations Organized Under Act of Congress (including Federal Credit Unions
+SUBSECTION,SUBSECTION,2,Title Holding Corporations for Exempt Organization,Title Holding Corporations for Exempt Organization
+SUBSECTION,SUBSECTION,3,Charitable Organization,Charitable Organization
+SUBSECTION,SUBSECTION,4,Civic Leagues and Social Welfare Organizations and Local Associations of Employees,"Civic Leagues, Social Welfare Org, Local Associations of Employees"
+SUBSECTION,SUBSECTION,5,"Labor, Agricultural and Horticultural Organizations","Labor, Agricultural and Horticultural Organizations"
+SUBSECTION,SUBSECTION,6,"Business Leagues, etc.","Business Leagues, etc."
+SUBSECTION,SUBSECTION,7,Social and Recreation Clubs,Social and Recreation Clubs
+SUBSECTION,SUBSECTION,8,Fraternal Beneficiary Societies,Fraternal Beneficiary Societies
+SUBSECTION,SUBSECTION,9,Voluntary Employees' Beneficiary Associations,Voluntary Employees' Beneficiary Associations
+SUBSECTION,SUBSECTION,10,Domestic Fraternal Societies,Domestic Fraternal Societies
+SUBSECTION,SUBSECTION,11,Teachers' Retirement Fund Associations,Teachers' Retirement Fund Associations
+SUBSECTION,SUBSECTION,12,"Benevolent Life Insurance Associations, Mutual Ditch or Irrigation Companies, Mutual or Cooperative Telephone Companies, or Like Organizations (if 85 percent or more of the organization's income consists of amounts collected from members for the sole purpose of meeting losses and expenses",Dues collecting Associations
+SUBSECTION,SUBSECTION,13,Cemetery Companies (owned and operated exclusively for the benefit of their members or which are not operated for profit,Cemetery Companies
+SUBSECTION,SUBSECTION,14,"State Chartered Credit Unions, Mutual Reserve Funds","State Chartered Credit Unions, Mutual Reserve Funds"
+SUBSECTION,SUBSECTION,15,Mutual Insurance Companies or Associations,Mutual Insurance Companies or Associations
+SUBSECTION,SUBSECTION,16,Cooperative Organizations to Finance Crop Operations,Cooperative Organizations to Finance Crop Operations
+SUBSECTION,SUBSECTION,17,Supplemental Unemployment Benefit Trusts,Supplemental Unemployment Benefit Trusts
+SUBSECTION,SUBSECTION,18,"Employee Funded Pension Trusts (created before June 25, 1959","Employee Funded Pension Trusts (created before June 25, 1959"
+SUBSECTION,SUBSECTION,19,Veterans' Organizations,Veterans' Organizations
+SUBSECTION,SUBSECTION,21,Black Lung Benefit Trusts,Black Lung Benefit Trusts
+SUBSECTION,SUBSECTION,22,Withdrawal Liability Payment Funds,Withdrawal Liability Payment Funds
+SUBSECTION,SUBSECTION,25,Title Holding Corporations or Trusts with Multiple Parents,"Title Holding Corp, Trusts with Multiple Parents"
+SUBSECTION,SUBSECTION,26,State-Sponsored High-Risk Health Coverage Organizations,State-Sponsored High-Risk Health Cov Orgs
+SUBSECTION,SUBSECTION,27,State-Sponsored Worker's Compensation Reinsurance Organizations,State-Sponsored Worker's Compensation Reinsurance Organizations
+SUBSECTION,SUBSECTION,28,National Railroad Retirement Investment Trust (45 U.S.C. 231n(j,National Railroad Retirement Investment Trust (45 U.S.C. 231n(j
+SUBSECTION,SUBSECTION,29,Qualified Nonprofit Health Insurance Issuers,Qualified Nonprofit Health Insurance Issuers
+CLASSIFICATION,SubSect and Classification,define,This code identifies the type of organization or the purpose for which it was established. One to four different codes may be present in this field.,This code identifies the type of organization or the purpose for which it was established. One to four different codes may be present in this field.
+SS_Class,,1_1,Government Instrumentality,Government Instrumentality
+SS_Class,,2_1,Title-Holding Corporation,Title-Holding Corporation
+SS_Class,,3_1,Charitable Organization,Charitable Organization
+SS_Class,,3_2,Educational Organization,Educational Organization
+SS_Class,,3_3,Literary Organization,Literary Organization
+SS_Class,,3_4,Organization to Prevent Cruelty to Animals,Organization to Prevent Cruelty to Animals
+SS_Class,,3_5,Organization to Prevent Cruelty to Children,Organization to Prevent Cruelty to Children
+SS_Class,,3_6,Organization for Public Safety Testing,Organization for Public Safety Testing
+SS_Class,,3_7,Religious Organization,Religious Organization
+SS_Class,,3_8,Scientific Organization,Scientific Organization
+SS_Class,,4_1,Civic League,Civic League
+SS_Class,,4_2,Local Association of Employees,Local Association of Employees
+SS_Class,,4_3,Social Welfare Organization,Social Welfare Organization
+SS_Class,,5_1,Agricultural Organization,Agricultural Organization
+SS_Class,,5_2,Horticultural Organization,Horticultural Organization
+SS_Class,,5_3,Labor Organization,Labor Organization
+SS_Class,,6_1,Board of Trade,Board of Trade
+SS_Class,,6_2,Business League,Business League
+SS_Class,,6_3,Chamber of Commerce,Chamber of Commerce
+SS_Class,,6_4,Real Estate Board,Real Estate Board
+SS_Class,,7_1,"Pleasure, Recreational, or Social Club","Pleasure, Recreational, or Social Club"
+SS_Class,,8_1,"Fraternal Beneficiary Society, Order or Association","Fraternal Beneficiary Society, Order or Association"
+SS_Class,,9_1,Voluntary Employees' Beneficiary - Association (Non-Gov't. Emps.),Voluntary Employees' Beneficiary - Association (Non-Gov't. Emps.)
+SS_Class,,9_2,Voluntary Employees' Beneficiary - Association (Gov't. Emps.),Voluntary Employees' Beneficiary - Association (Gov't. Emps.)
+SS_Class,,10_1,Domestic Fraternal Societies Associations,Domestic Fraternal Societies Associations
+SS_Class,,11_1,Teachers Retirement Fund Assoc.,Teachers Retirement Fund Assoc.
+SS_Class,,12_1,Benevolent Life Insurance Assoc.,Benevolent Life Insurance Assoc.
+SS_Class,,12_2,Mutual Ditch or Irrigation Co.,Mutual Ditch or Irrigation Co.
+SS_Class,,12_3,Mutual Cooperative Telephone Co.,Mutual Cooperative Telephone Co.
+SS_Class,,12_4,Organization Like Those on Three Preceding Lines,Organization Like Those on Three Preceding Lines
+SS_Class,,13_1,Burial Association,Burial Association
+SS_Class,,13_2,Cemetery Company,Cemetery Company
+SS_Class,,14_1,Credit Union,Credit Union
+SS_Class,,14_2,Other Mutual Corp. or Assoc.,Other Mutual Corp. or Assoc.
+SS_Class,,15_1,Mutual Insurance Company or Assoc.- Other Than Life or Marine,Mutual Insurance Company or Assoc.- Other Than Life or Marine
+SS_Class,,16_1,Corp. Financing Crop Operations,Corp. Financing Crop Operations
+SS_Class,,17_1,Supplemental Unemployment Compensation Trust or Plan,Supplemental Unemployment Compensation Trust or Plan
+SS_Class,,18_1,Employee Funded Pension Trust (Created Before 6/25/59),Employee Funded Pension Trust (Created Before 6/25/59)
+SS_Class,,19_1,Post or Organization of War Veterans,Post or Organization of War Veterans
+SS_Class,,20_1,Legal Service Organization,Legal Service Organization
+SS_Class,,21_1,Black Lung Trust,Black Lung Trust
+SS_Class,,22_1,Multiemployer Pension Plan,Multiemployer Pension Plan
+SS_Class,,23_1,Veterans Assoc. Formed Prior to 1880,Veterans Assoc. Formed Prior to 1880
+SS_Class,,24_1,Trust Described in Sect. 4049,Trust Described in Sect. 4049
+SS_Class,,25_1,"Title Holding Co. for Pensions, etc.","Title Holding Co. for Pensions, etc."
+SS_Class,,26_1,State-Sponsored High Risk Health Insurance Organizations,State-Sponsored High Risk Health Insurance Organizations
+SS_Class,,27_1,State-Sponsored Workers' Compensation Reinsurance,State-Sponsored Workers' Compensation Reinsurance
+SS_Class,,40_1,Apostolic and Religious Org.(501(d)),Apostolic and Religious Org.(501(d))
+SS_Class,,50_1,Cooperative Hospital Service Organization (501(e)),Cooperative Hospital Service Organization (501(e))
+SS_Class,,60_1,Cooperative Service Organization of Operating Educational Org. (501(f)),Cooperative Service Organization of Operating Educational Org. (501(f))
+SS_Class,,70_1,Child Care Organization (501(k)),Child Care Organization (501(k))
+SS_Class,,71_1,Charitable Risk Pool,Charitable Risk Pool
+SS_Class,,81_1,Qualified State-Sponsored Tuition Pr,Qualified State-Sponsored Tuition Pr
+DEDUCTIBILITY,DEDUCTIBILITY,define,Indicates where donations are tax deductible,
+DEDUCTIBILITY,DEDUCTIBILITY,1,Contributions are deductible.,Contributions deductible.
+DEDUCTIBILITY,DEDUCTIBILITY,2,Contributions are not deductible.,Contributions not deductible.
+DEDUCTIBILITY,DEDUCTIBILITY,4,Contributions are deductible by treaty (foreign organizations),Contributions deductible by treaty (foreign organizations)
