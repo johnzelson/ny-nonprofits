@@ -18,7 +18,7 @@ APP_TITLE = 'NY Nonprofits: BMF Plots'
 APP_SUB_TITLE = 'Main Data Source:  IRS Business Master File (BMF) '
 
 APP_VERS = "3_2"
-APP_CHANGES = "Adding Summary, help Info, Reports config and plots"
+APP_CHANGES = "Adding Summary, gh desktop help Info, Reports config and plots"
 
 
 def test_report(ny_cities_df):
