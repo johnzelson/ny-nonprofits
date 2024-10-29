@@ -224,10 +224,10 @@ def load_rpt_config():
                             "rpt_def_name" : "name_of_def",
                             "rpt_desc" : "Where the city ranks in Number of NPs"
                             },                                             
-              "NP Income by Emphasis Area" : { "rpt_title" : "NP Income by Emphasis Area",
-                            "rpt_def_name" : "name_of_def",
-                            "rpt_desc" : "Total Income of NPs by NTEE or Emphasis Area"
-                            },
+              #"NP Income by Emphasis Area" : { "rpt_title" : "NP Income by Emphasis Area",
+              #              "rpt_def_name" : "name_of_def",
+              #              "rpt_desc" : "Duplicate Total Income of NPs by NTEE or Emphasis Area"
+              #              },
               "Orgs and Income" : { "rpt_title" : "Orgs and Income",
                             "rpt_def_name" : "name_of_def",
                             "rpt_desc" : "Count Orgs by IRS Income Categories"
