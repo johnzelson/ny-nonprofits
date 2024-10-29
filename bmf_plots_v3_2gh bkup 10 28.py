@@ -26,7 +26,7 @@ def test_report(ny_cities_df, srch_city):
 
 
 def cities_folium(ny_cities_df, srch_city):
-    st.write ("cities in folium", srch_city)
+    st.write ("cities in folium")
 
     center = [42.54043355305221,-76.1342239379883]
     num = 0
@@ -34,6 +34,7 @@ def cities_folium(ny_cities_df, srch_city):
         location=center,
         #zoom_start=15
     )
+    
     
     nps2 = folium.FeatureGroup(name="Cities")
 
@@ -60,11 +61,6 @@ def cities_folium(ny_cities_df, srch_city):
         # pop_msg += "<br>" + row.STREET
         # pop_msg += "<br> x: " + str(row.coord_x) +  "<br>  y:  " + str(row.coord_y) 
 
-
-        marker_color = "blue"
-        if row.major_city == srch_city:
-            marker_color = "red"
-
         folium.CircleMarker(
             #location=[  row['dc_longitude'], row['dc_latitude'] ],
             location=[  row['dc_latitude'], row['dc_longitude'] ],
@@ -72,8 +68,7 @@ def cities_folium(ny_cities_df, srch_city):
             # popup= folium.Popup(pop_msg, max_width=300), 
             # tooltip = present_num + row.NAME
             tooltip = pop_msg, 
-            radius=3,
-            color=marker_color
+            radius=3
         ).add_to(nps2)
 
 
@@ -86,42 +81,23 @@ def cities_folium(ny_cities_df, srch_city):
                       width=675, 
                       height=450,
                       center=center,
-                      # key="city_folium",
+                        key="city_folium",
                         zoom=7    
                       )
-    # if user clicked on this map, save to sessions
-    #if st_m2
-    st.write ("OK, here's st_m2")
-    st.write(st_m2)
-    # st.session_state["city_folium_status"] = "Not"
-
-    if "last_object_clicked_tooltip" in st_m2:
-        st.write ("s2t m2 last object clicked tooltip ")
-        if st_m2["last_object_clicked_tooltip"] is None:
-            st.write ("ok tooltip is None")
-        else:
-            st.write (st_m2["last_object_clicked_tooltip"])
-            st.session_state["city_folium_status"] = st_m2["last_object_clicked_tooltip"]
-        
-        #if not pd.isnull(st_m2["last object clicked tooltip"]):
-        #    st.write (st_m2["last object clicked tooltip"])
-
-    #st.session_state["cities_folium_city"] 
     return st_m2
 
 def cities_on_map(ny_cities_df, srch_city):
-    """
-    vega in streamlit doesn't allow events on maps 
-    with multiple layers
-       
-    """
+    from vega_datasets import data            
+    #st.write("City by Latitude and Long")
 
-    from vega_datasets import data      
+    #st.write (len(ny_cities_df))
+    #st.dataframe(ny_cities_df)
     filt = ny_cities_df["dc_longitude"].notnull()
+    # st.dataframe(ny_cities_df[filt])
 
     # only want new york shape
     us_10m  = data.us_10m()
-    # Select the geometries under states under objects, filter on id 36
+    # Select the geometries under states under objects, filter on id (9,25,34,36,42,44)
     us_10m['objects']['states']['geometries']=[item for item in us_10m['objects'] \
         ['states']['geometries'] if item['id'] in [36]]
     # Make the topojson data
@@ -171,16 +147,16 @@ def cities_on_map(ny_cities_df, srch_city):
 
     # Overlay the two plots
     #st.altair_chart(background+points, theme="streamlit", use_container_width=True)
-    #event = st.altair_chart(background+points,  use_container_width=True, key="cities_on_map", on_select="rerun")
+    #event = st.altair_chart(background+points,  use_container_width=True, key="city_map", on_select="rerun")
     
-    event = st.altair_chart(points,  use_container_width=True, key="alt_cities_on_map", on_select="rerun")
+    event = st.altair_chart(points,  use_container_width=True, key="city_map", on_select="rerun")
+
 
 
 def load_rpt_config():
     """ Reports Config
     
     considering putting def name in the config...
-    would have to define all defs before loading report config
 
     eg. the list of reports for select box
     rpt_names_list = list(rpt_config.keys())
@@ -195,16 +171,16 @@ def load_rpt_config():
     #    },
 
 
+
     rpt_config = {
-                  # "test" : { "rpt_title" : "Test Report",
-                  #  "rpt_def_name" : test_report,
-                  #  "rpt_desc" :    "See Relationship between Total NP Income and Number or NPs.  Click on bubble to select city"
-                  #},
-                    # folium implmentation too clunky.  figure out later
-                    #"Cities folium" : { "rpt_title" : "Cities Folium in NY",
-                    #"rpt_def_name" : cities_folium,
-                    #"rpt_desc" :    "Click on bubble to select city"
-                  # },
+                  "test" : { "rpt_title" : "Test Report",
+                    "rpt_def_name" : test_report,
+                    "rpt_desc" :    "See Relationship between Total NP Income and Number or NPs.  Click on bubble to select city"
+                  },
+                    "Cities folium" : { "rpt_title" : "Cities Folium in NY",
+                    "rpt_def_name" : cities_folium,
+                    "rpt_desc" :    "Click on bubble to select city"
+                  },
     
                     "Cities on Map" : { "rpt_title" : "Cities in NY",
                     "rpt_def_name" : cities_on_map,
@@ -218,34 +194,24 @@ def load_rpt_config():
                             },  
               "Rank Cities by NP Income" : { "rpt_title" :  "Rank Cities by NP Income",
                             "rpt_def_name" : "name_of_def",
-                            "rpt_desc" : "Where the city ranks by Total Income of NPs"
+                            "rpt_desc" : "Explanation of Report"
                             },                                                                                         
               "Rank Cities by NP Org Count" : { "rpt_title" : "NP Org Count Rank",
                             "rpt_def_name" : "name_of_def",
-                            "rpt_desc" : "Where the city ranks in Number of NPs"
+                            "rpt_desc" : "Explanation of Report"
                             },                                             
               "NP Income by Emphasis Area" : { "rpt_title" : "NP Income by Emphasis Area",
                             "rpt_def_name" : "name_of_def",
-                            "rpt_desc" : "Total Income of NPs by NTEE or Emphasis Area"
+                            "rpt_desc" : "Explanation of Report"
                             },
               "Orgs and Income" : { "rpt_title" : "Orgs and Income",
                             "rpt_def_name" : "name_of_def",
-                            "rpt_desc" : "Count Orgs by IRS Income Categories"
+                            "rpt_desc" : "Explanation of Report"
                             },
               "Orgs and Affiliation" : { "rpt_title" : "Orgs and Affiliation",
                             "rpt_def_name" : "name_of_def",
-                            "rpt_desc" : "Count Orgs by IRS Affiliation Category - Independent vs Group"
-                            },
-            "Income and Emphasis Area" : { "rpt_title" :  "Income and Emphasis Area",
-                            "rpt_def_name" : "name_of_def",
-                            "rpt_desc" : "Income Reported for Orgs categorized by NTEE Code"
-                            },
-            
-            "alt_city_pop_inc" : { "rpt_title" : "alt_city_pop_inc",
-                            "rpt_def_name" : "name_of_def",
                             "rpt_desc" : "Explanation of Report"
                             },
-
               "INCOME_CD" : { "rpt_title" : "INCOME_CD",
                             "rpt_def_name" : "name_of_def",
                             "rpt_desc" : "Explanation of Report"
@@ -273,7 +239,16 @@ def load_rpt_config():
             "DEDUCTIBILITY" : { "rpt_title" : "DEDUCTIBILITY",
                             "rpt_def_name" : "name_of_def",
                             "rpt_desc" : "Explanation of Report"
-                            }             
+                            },  
+            "Income and Emphasis Area" : { "rpt_title" :  "Income and Emphasis Area",
+                            "rpt_def_name" : "name_of_def",
+                            "rpt_desc" : "Income Reported for Orgs categorized by NTEE Code"
+                            },
+            
+            "alt_city_pop_inc" : { "rpt_title" : "alt_city_pop_inc",
+                            "rpt_def_name" : "name_of_def",
+                            "rpt_desc" : "Explanation of Report"
+                            }
           }
                     
     return rpt_config
@@ -480,7 +455,7 @@ def Cities_Income_and_Nbr_Orgs(df, srch_city):
     ).add_params(point_selector)
 
     event = st.altair_chart(chart,  use_container_width=True, 
-                key="alt_cities_income_and_nbr_org",   # alt_chart",
+                key="alt_char", # "alt_cities_income_and_nbr_org",   
                 on_select="rerun")
     # st.write (event)
     
@@ -536,7 +511,7 @@ def alt_city_pop_inc(df, srch_city):
         #color='category'
     ).add_params(point_selector)
 
-    event = st.altair_chart(chart,  use_container_width=True, key="alt_city_pop_inc", on_select="rerun")
+    event = st.altair_chart(chart,  use_container_width=True, key="alt_chart", on_select="rerun")
     # st.write (event)
     
     # Display the chart
@@ -1183,10 +1158,10 @@ def do_sidebar(reports_list, city_list, selected_city):
             with st.form("report_params"):
             #with st.expander("Reports", expanded=True): #temp exp without forms
                 st.write ("Pick a Report") 
-                report_name = st.selectbox("Plot", reports_list, index=0, key="sb_rpt_name_key")
+                report_name = st.selectbox("Plot", reports_list, index=0, key="rpt_name_key")
 
                 city = st.selectbox("City of Interest", city_list, index=sel_city_index, 
-                                    key="sb_city_key",
+                                    key="city_key",
                                     help="Typing the city name will jump to desired city.  (Not relevant to some plots)")
 
                 nbr_results = st.selectbox("Number of Cities to Compare", [10, 20, 30, 40, 50], index=1)
@@ -1215,9 +1190,6 @@ def main():
     st.title(APP_TITLE)
     st.caption(APP_SUB_TITLE)
 
-    #TODO   related to handling folium
-    rpt_return = None
-
     # load data 
     ntee = load_ntee()
     bmf = load_bmf_codes()
@@ -1230,13 +1202,17 @@ def main():
 
     np_ny_p_df = load_np_ny_p_df()
 
+    #debug
+    # st.write (len(np_ny_p_df))
+    #column_names = np_ny_p_df.columns
+    #column_names_list = list(column_names)
+    #st.table(column_names_list)
+
     # set some graph params
-    # TODO: implement highlight_color vs regular_color in all reports
     if 'blueish' not in st.session_state:
         st.session_state['blueish'] = "#54b1f0"
         st.session_state['orangey'] = "#f0b056"
 
-    # load reports list, configs
     rpt_config = load_rpt_config()
     rpt_names_list = list(rpt_config.keys())
 
@@ -1245,130 +1221,89 @@ def main():
     # ---- control center  ----
     # sort out whether use clicked plot or sidebar 
     
-    # debug
-    # st.write(st.session_state)
-    
-    # In some cases, a plot is returning value - user clicked in the plot
-    # and the streamlit app triggers rerun with click values in session 
-
-    # so far, report can only be changed in sidebar, but some future 
-    # iteration would allow user to jump to related plots from a plot
+    st.write(st.session_state)
     
     if "FormSubmitter:report_params-Show Plot" in st.session_state:
-
-        # if formsubmitter is true, then user clicked on sidebar
         if st.session_state["FormSubmitter:report_params-Show Plot"]:
-            # user selection from sidebar
-            selected_rpt = st.session_state["sb_rpt_name_key"]
-            selected_city = st.session_state["sb_city_key"]
+            #st.write ("User Clicked on sidebar ")
+            selected_rpt = st.session_state["rpt_name_key"]
+            selected_city = st.session_state["city_key"]
 
-        # otherwise user clicked in a plot
-
-        # user clicked on altair/vega.  
-        # session state has the altair 
-        # and a selected city is session
-        elif "alt_city_pop_inc" in st.session_state: 
-            selected_city = st.session_state["alt_city_pop_inc"]["selection"]["point_selection"][0]["major_city"] 
-            #st.write(st.session_state["alt_city_pop_inc"]["selection"]["point_selection"][0]["major_city"])
-        elif "alt_cities_on_map" in st.session_state: 
-            selected_city = st.session_state["alt_cities_on_map"]["selection"]["point_selection"][0]["major_city"] 
+        elif "alt_chart" in st.session_state: 
+            selected_city = st.session_state["alt_chart"]["selection"]["point_selection"][0]["major_city"] 
             #st.write(st.session_state["alt_chart"]["selection"]["point_selection"][0]["major_city"])
-        elif "alt_cities_income_and_nbr_org" in st.session_state: 
-            selected_city = st.session_state["alt_cities_income_and_nbr_org"]["selection"]["point_selection"][0]["major_city"] 
+        elif "city_map" in st.session_state: 
+            selected_city = st.session_state["city_map"]["selection"]["point_selection"][0]["major_city"] 
             #st.write(st.session_state["alt_chart"]["selection"]["point_selection"][0]["major_city"])
 
-        #TODO:  deal with integrating folium maps
-        # leaving stub, but not implemented     
-        # trying to city if clicked on, clunky reruns 
-        # 
-        # --- stub ignored ----
-        elif st.session_state["sb_rpt_name_key"] == "Cities folium": 
-            st.write ("user selected a city from map... i thought, but wrong")
-            if "city_folium_status" in st.session_state:
-                selected_city = st.session_state["city_folium_status"]
-                st.write ("folium map session, set selected city")
-                st.write (selected_city)
-
-            else:
-                selected_city = st.session_state["sb_city_key"]
-        # --- end stub ignored ----                            
+        # "rpt_name_key":"Cities folium"
+        #elif "Cities folium" in st.session_state:
+        elif ("rpt_name_key" in st.session_state) :
+            st.write (" ---- cities folium map click --- ")
+            #if "last_object_clicked_tooltip" in 
+            #st.write (st.session_state["last_object_clicked_tooltip"])
+            selected_city = rpt_return["last_object_clicked_tooltip"]
 
         else:
-            #TODO: check: shouldn't get here...
-            selected_city = st.session_state["sb_city_key"]
-    else: 
+            # shouldn't get here...i thought
+            selected_city = st.session_state["city_key"]
+    else:
         #st.write ("formsubmitter not in session.  just arrived?")
         selected_city = '(all)'
         data_profile(ny_cities_df, np_ny_p_df)
 
     
-    #NOTE:  so far, don't need to send selected report to sidebar
-    #       in future, if user can click in one plot plot generate to another report, will have to... 
-    #(report_name, city, nbr_results) = do_sidebar(reports_list, city_list, selected_city)
-    (report_name, selected_city, nbr_results) = do_sidebar(reports_list, city_list, selected_city)
-    
-    # show plot name and description 
+    #NOTE:  so far, don't need to send selected report
+    #       but if  plot click can send to another report, will have to... 
+    (report_name, city, nbr_results) = do_sidebar(reports_list, city_list, selected_city)
+
     if report_name != "Select...":
         #rpt_md = "#### "+ rpt_config[report_name]["rpt_title"]
         #rpt_md += "###### " + rpt_config[report_name]["rpt_desc"]
         st.markdown ("#### "+ rpt_config[report_name]["rpt_title"])
         st.markdown ("###### " + rpt_config[report_name]["rpt_desc"])
 
-    # show selected plot
-    # experiment with putting def names in report config
-    if report_name in ["test", "Cities on Map"]:
-        #TODO:add return values? 
-        rpt_config[report_name]['rpt_def_name'](ny_cities_df, selected_city)
-    
-    #but folium maps are different    
-    elif report_name == "Cities folium":    
-        st.write ("go do folium")
+    #st.write(report_name)
+    if report_name in ["test", "Cities on Map", "Cities folium"]:
+        #TODO:add return values 
+        rpt_return = rpt_config[report_name]['rpt_def_name'](ny_cities_df,city)
+        st.write("rpt return")
+        if "last_object_clicked_tooltip" in rpt_return:
+            city = rpt_return["last_object_clicked_tooltip"]
+            st.write(rpt_return["last_object_clicked_tooltip"])
+            st.write (rpt_return)
 
-        rpt_return = rpt_config[report_name]['rpt_def_name'](ny_cities_df, selected_city)
-        
-        #st.session_state["cities_folium_city"]
-
-        #if rpt_return:
-        #    if "last_object_clicked_tooltip" in rpt_return and rpt_return['last_object_clicked_tooltip']:
-        #        st.write("folium map has tooltip")
-        #        selected_city = rpt_return["last_object_clicked_tooltip"]
-        #        st.write(rpt_return["last_object_clicked_tooltip"])
-        #    else:
-        #        selected_city = st.session_state["sb_city_key"]
-
-
-    elif report_name == "Rank Cities by NP Income":
-        rpt_cities_income_rank(ny_cities_df, selected_city, nbr_results)
-
+    if report_name == "Rank Cities by NP Income":
+        rpt_cities_income_rank(ny_cities_df, city, nbr_results)
     elif report_name == "Rank Cities by NP Org Count":
-        rpt_cities_np_cnt_rank(ny_cities_df, selected_city, nbr_results)
+        rpt_cities_np_cnt_rank(ny_cities_df, city, nbr_results)
     elif report_name == "NP Income by Emphasis Area":
-        rpt_income_ntee(np_ny_p_df, selected_city, nbr_results)
+        rpt_income_ntee(np_ny_p_df, city, nbr_results)
     elif report_name == "Orgs and Income":
         # rpt_income_code(np_ny_p_df, city, bmf)
-        rpt_orgs_category(np_ny_p_df, selected_city, bmf, 'INCOME_CD')
+        rpt_orgs_category(np_ny_p_df, city, bmf, 'INCOME_CD')
         #show_bmf_lookups(bmf, 'INCOME_CD')
     elif report_name == "Orgs and Affiliation":
-        rpt_orgs_category(np_ny_p_df, selected_city, bmf, 'AFFILIATION')
+        rpt_orgs_category(np_ny_p_df, city, bmf, 'AFFILIATION')
         show_bmf_lookups(bmf, 'AFFILIATION')
     elif report_name in ['INCOME_CD', 'AFFILIATION', 'ORGANIZATION', 'FOUNDATION', 'ASSET_CD', 
                          'SUBSECTION', 'DEDUCTIBILITY']:
-        rpt_orgs_category(np_ny_p_df, selected_city, bmf, report_name)
+        rpt_orgs_category(np_ny_p_df, city, bmf, report_name)
         show_bmf_lookups(bmf, report_name)
     elif report_name == "Income and Emphasis Area":
-        Income_and_Emphasis_Area(np_ny_p_df, selected_city)
+        Income_and_Emphasis_Area(np_ny_p_df, city)
     elif report_name == "Rank Cities Income and Nbr Orgs":
-        Cities_Income_and_Nbr_Orgs(ny_cities_df, selected_city)
+        Cities_Income_and_Nbr_Orgs(ny_cities_df, city)
 
     elif report_name == "alt_city_pop_inc":
-        alt_city_pop_inc(ny_cities_df, selected_city)
+        alt_city_pop_inc(ny_cities_df, city)
 
     #st.write (rpt_config["Cities:  Income and Nbr Orgs"]["rpt_title"])
     #st.write( rpt_config["Cities:  Income and Nbr Orgs"]["rpt_desc"])
 
-    if selected_city != '(all)':
-        city_bmf_profile(selected_city, ny_cities_df)
-        list_city_nps(selected_city, np_ny_p_df)
+    if city != '(all)':
+        city_bmf_profile(city, ny_cities_df)
+        list_city_nps(city, np_ny_p_df)
 
 
 if __name__ == "__main__":
