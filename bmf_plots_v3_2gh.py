@@ -1052,20 +1052,22 @@ def data_profile(ny_cities_df, np_ny_p_df ):
     This app presents data on Nonprofits in New York State.  Select a Plot in left sidebar.
      
     The core dataset was collected from the IRS in July 2024 with supplemental information
-    on cities and demographics from a variety of other sources, like the US Census and 
-    Google data commons.  All code and data is available at Gitub (link).
+    on cities and demographics from a variety of other sources, like the [US Census](https://www.census.gov/data/developers/data-sets.html) and 
+    [Google Data Commons](https://datacommons.org/).  
     
     It's an early draft of a curiosity and learning project, but demonstrates some 
-    potential for creating a way to layer information about a community.
+    potential for creating a way to layer information about a community.  
     
-    This is an offshoot of an effort to look at more detailed info on nonprofits
+    This app is an offshoot of an effort to look at more detailed info on nonprofits
     in a local area:
-    - Nonprofits in Cortland, NY 
-    - Connections between people 
-    
+    - [Nonprofits in Cortland, NY](https://local-nonprofits-jzelson.streamlit.app/) 
+    - [Visualization of People connections in Cortland](https://johnzelson-local-nonprofits-graph-streamlit-app-zuq6hl.streamlit.app/)
+
     It would be interesting to make an app that is easily refreshed and 
     extended that would enable analysis and discovery about community. (language)
     
+    If you want to make it better, see the [Github repository](https://github.com/johnzelson/ny-nonprofits) 
+
     """
     st.markdown(app_summary)
 
@@ -1287,7 +1289,7 @@ def do_sidebar(reports_list, city_list, selected_city):
 
             In left sidebar, select a plot and click "Show Button."
 
-            The City of Interest isn't relevant to every report.
+            The City of Interest isn't relevant to every plot.
 
             In some plots, user can click on cities to change city of interest.
 
