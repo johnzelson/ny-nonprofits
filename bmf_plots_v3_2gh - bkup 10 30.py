@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 # import geopandas as gpd
 import altair as alt
-from vega_datasets import data      
 
 from streamlit_folium import st_folium
 import folium
@@ -15,24 +14,19 @@ import csv
 import math
 
 
-APP_TITLE = 'NY Nonprofits'
-APP_SUB_TITLE = 'Main Data Source:  IRS Business Master File (BMF)'
+APP_TITLE = 'NY Nonprofits: BMF Plots'
+APP_SUB_TITLE = 'Main Data Source:  IRS Business Master File (BMF) '
+
 APP_VERS = "3_2"
+APP_CHANGES = "Adding Summary, gh desktop help Info, Reports config and plots"
 
-
-
-# --- defs for all reports ---
 
 def test_report(ny_cities_df, srch_city):
     st.write("sdf")
 
 
 def cities_folium(ny_cities_df, srch_city):
-    """ nonprofits on openstreet map
-        not implemented yet.   
-        triggers reruns where I don't want
-    
-    """
+    st.write ("cities in folium", srch_city)
 
     center = [42.54043355305221,-76.1342239379883]
     num = 0
@@ -82,6 +76,7 @@ def cities_folium(ny_cities_df, srch_city):
             color=marker_color
         ).add_to(nps2)
 
+
     m2.add_child(nps2)
 
     #folium.LayerControl(collapsed=False).add_to(m2)
@@ -121,6 +116,7 @@ def cities_on_map(ny_cities_df, srch_city):
        
     """
 
+    from vega_datasets import data      
     filt = ny_cities_df["dc_longitude"].notnull()
 
     # only want new york shape
@@ -188,12 +184,9 @@ def cities_on_map(ny_cities_df, srch_city):
                         ],
 
         color=alt.condition(
-            alt.datum.major_city == srch_city,
-            alt.value('blue'),  # Color for selected NP
-            alt.value('red')   # Color for all others
-            #alt.value(st.session_state['highlight_color']),
-            #alt.value(st.session_state['point_color'])
-
+        alt.datum.major_city == srch_city,
+        alt.value('blue'),  # Color for selected NP
+        alt.value('red')   # Color for all others
         ),
 
         size=alt.condition(
@@ -217,6 +210,248 @@ def cities_on_map(ny_cities_df, srch_city):
                         key="alt_cities_on_map", 
                         on_select="rerun")
 
+
+def load_rpt_config():
+    """ Reports Config
+    
+    considering putting def name in the config...
+    would have to define all defs before loading report config
+
+    eg. the list of reports for select box
+    rpt_names_list = list(rpt_config.keys())
+    
+    eg.  Title for report
+    rpt_config["rpt_name"]["rpt_title]
+    """
+
+    # "rpt_name" :  { "rpt_title"  : "Human Readable Title",
+    #    "rpt_def_name" : "name_of_def",
+    #    "rpt_desc" : "Explanation of Report"
+    #    },
+
+
+    rpt_config = {
+                  # "test" : { "rpt_title" : "Test Report",
+                  #  "rpt_def_name" : test_report,
+                  #  "rpt_desc" :    "See Relationship between Total NP Income and Number or NPs.  Click on bubble to select city"
+                  #},
+                    # folium implmentation too clunky.  figure out later
+                    #"Cities folium" : { "rpt_title" : "Cities Folium in NY",
+                    #"rpt_def_name" : cities_folium,
+                    #"rpt_desc" :    "Click on bubble to select city"
+                  # },
+    
+                    "Cities on Map" : { "rpt_title" : "Cities in NY",
+                    "rpt_def_name" : cities_on_map,
+                    "rpt_desc" :    "Click on bubble to select city"
+                  },
+
+                  "Rank Cities Income and Nbr Orgs" : { "rpt_title" : "Rank of Number of Nonprofits and Rank of Total Income",
+                    "rpt_def_name" : "not_implented",
+                    "rpt_desc" :    ("See Relationship between Total NP Income and Number or NPs. " 
+                                       " Click on bubble to select city")
+                                       
+                            },  
+              "Rank Cities by NP Income" : { "rpt_title" :  "Rank Cities by NP Income",
+                            "rpt_def_name" : "name_of_def",
+                            "rpt_desc" : "Where the city ranks by Total Income of NPs"
+                            },                                                                                         
+              "Rank Cities by NP Org Count" : { "rpt_title" : "NP Org Count Rank",
+                            "rpt_def_name" : "name_of_def",
+                            "rpt_desc" : "Where the city ranks in Number of NPs"
+                            },                                             
+              #"NP Income by Emphasis Area" : { "rpt_title" : "NP Income by Emphasis Area",
+              #              "rpt_def_name" : "name_of_def",
+              #              "rpt_desc" : "Duplicate Total Income of NPs by NTEE or Emphasis Area"
+              #              },
+              "Orgs and Income" : { "rpt_title" : "Orgs and Income",
+                            "rpt_def_name" : "name_of_def",
+                            "rpt_desc" : "Count Orgs by IRS Income Categories"
+                            },
+              "Orgs and Affiliation" : { "rpt_title" : "Orgs and Affiliation",
+                            "rpt_def_name" : "name_of_def",
+                            "rpt_desc" : "Count Orgs by IRS Affiliation Category - Independent vs Group"
+                            },
+            "Income and Emphasis Area" : { "rpt_title" :  "Income and Emphasis Area",
+                            "rpt_def_name" : "name_of_def",
+                            "rpt_desc" : "Income Reported for Orgs categorized by NTEE Code"
+                            },
+            
+            "Population and NP Income" : { "rpt_title" : "Population and NP Income",
+                            "rpt_def_name" : "alt_city_pop_inc",
+                            "rpt_desc" : "Relationship between population and total NP Income"
+                            },
+
+              "INCOME_CD" : { "rpt_title" : "INCOME_CD",
+                            "rpt_def_name" : "name_of_def",
+                            "rpt_desc" : "Explanation of Report"
+                            },
+              "AFFILIATION" : { "rpt_title" : "AFFILIATION",
+                            "rpt_def_name" : "name_of_def",
+                            "rpt_desc" : "Explanation of Report"
+                            },
+                "ORGANIZATION" : { "rpt_title" : "ORGANIZATION",
+                            "rpt_def_name" : "name_of_def",
+                            "rpt_desc" : "Explanation of Report"
+                            },                                                   
+                "FOUNDATION" : { "rpt_title" : "FOUNDATION",
+                            "rpt_def_name" : "name_of_def",
+                            "rpt_desc" : "Explanation of Report"
+                            },
+                "SUBSECTION" : { "rpt_title" : "SUBSECTION",
+                            "rpt_def_name" : "name_of_def",
+                            "rpt_desc" : "Explanation of Report"
+                            },
+                "ASSET_CD" : { "rpt_title" : "ASSET_CD",
+                            "rpt_def_name" : "name_of_def",
+                            "rpt_desc" : "Explanation of Report"
+                            },                                                                 
+            "DEDUCTIBILITY" : { "rpt_title" : "DEDUCTIBILITY",
+                            "rpt_def_name" : "name_of_def",
+                            "rpt_desc" : "Explanation of Report"
+                            }             
+          }
+                    
+    return rpt_config
+
+@st.cache_data
+def get_np_local_df():
+    dtype = {"CLASSIFICATION": str,
+         "EIN" : str,
+         "ACTIVITY" : str,
+         "AFFILIATION" : str,
+         "ORGANIZATION" : str,
+         "FOUNDATION" : str,
+         "NTEE_CD" : str,
+         "RULING" : str,
+         "ZIP" : str,
+         "TAX_PERIOD" : str,
+         "GROUP" : str,
+         "cb_BASENAME" : int, 
+         "cb_BLKGRP" : int,
+         "cb_BLOCK": str,
+         "cb_GEOID" : str,
+         "ZipCd" : str
+         }
+
+    # get nonprofit data, then setup incremental index
+    np_local_df = pd.read_csv('data/np_local_df.csv')
+    np_local_df.sort_values(by=['NAME'], inplace=True)
+    np_local_df.reset_index(drop=True, inplace=True)
+
+    # start index at 1 for humans, when matching org to map number
+    # this matches the other local nonprofits apps, but used here 
+    np_local_df.index += 1
+
+    return np_local_df
+
+
+@st.cache_data
+def load_ny_cities_df():
+    # get nonprofit data, then setup incremental index
+    #TODO: new data structure...
+    #ny_cities_df = pd.read_csv('data/ny_cities_p_df.csv')
+
+    dtypes = {'inc_rank' : int,	
+             'nbr_np_rank' : int,
+             'dc_wikidataId' : str,
+             'dc_usCensusGeoId' : str,
+             #'city_population' : int
+             }
+
+    ny_cities_df = pd.read_csv('data/bmf_cities_p_df.csv', dtype=dtypes)
+
+    return ny_cities_df
+
+
+@st.cache_data
+def load_city_list(ny_cities_df):
+    #city_list = ["(all)"] + ny_cities_df['CITY'].sort_values().to_list()
+    city_list = ["(all)"] + ny_cities_df['major_city'].sort_values().to_list()
+    #city_list = ny_cities_df['CITY'].sort_values().to_list()
+    return city_list
+
+
+@st.cache_data
+def load_np_ny_p_df():
+
+    #TODO: change to all_ny_np_df... but would have to modify 
+    #       existing report with code lookups...
+    dtypes = {"CLASSIFICATION": str,
+         "EIN" : str,
+         "ACTIVITY" : str,
+         #"AFFILIATION" : str,
+         #"ORGANIZATION" : str,
+         #"FOUNDATION" : str,
+         "NTEE_CD" : str,
+         "RULING" : str,
+         "ZIP" : str,
+         "TAX_PERIOD" : str,
+         #"GROUP" : str,
+         "zipcode" : str
+
+         }
+
+    # get nonprofit data, then setup incremental index
+    # np_ny_p_df = pd.read_csv('data/np_ny_p_df.csv')
+    np_ny_p_df = pd.read_csv('data/all_ny_np_df.csv', dtype=dtypes)
+
+    # a way to insert propublica link
+    # TODO: add the column in colab prep steps
+    pp_link = "https://projects.propublica.org/nonprofits/organizations/" # EIN
+
+    np_ny_p_df['pp_link'] = np_ny_p_df['EIN'].apply(
+                    lambda x: pp_link + x
+    )
+
+    return np_ny_p_df
+
+@st.cache_data
+def load_ntee():
+    ntee = {}
+    eo = {}
+
+    with open('data/NCCS_NTEE.csv', mode='r') as infile:
+        reader = csv.reader(infile)
+        for row in reader:
+            # print(f"0 {row[0]}   1 {row[1]}    2 {row[2]}" )
+            ntee[row[0]] = [row[1], row[2]]
+    
+    return ntee
+
+def load_bmf_codes():
+    """
+    Load lookup values for IRS codes in Business Master File (BMF)
+    
+    """
+
+    # Nested dictionary, like this 
+    #bmf = { 'INCOME_CD': {'code1': 'XX', 
+    #                              'codevalue1': '19', 
+    #                              {'short' : 'brief definition', 
+    #                              'full' :  'full definition'}
+
+
+    bmf = {}
+    bmf_set = set() # get each unique BMF field/column name
+    all_rows = []
+
+    with open('data/IRS_BMF_Lookups_wShortDesc.csv', mode='r') as infile:
+        reader = csv.reader(infile)
+        for row in reader:
+            # print(f"0 {row[0]}   1 {row[1]}    2 {row[2]}  3 {row[3]}" )
+            bmf_set.add(row[0])  # get unique column names
+            all_rows.append(row) # get rows to add to column name dict
+
+    for bmf_cols in bmf_set:
+        #print ("Loading Data for column: ", bmf_cols)
+        bmf[bmf_cols] = {}
+        for row in all_rows:
+            if row[0] == bmf_cols:
+                #bmf[bmf_cols][row[2]] = row[3]
+                bmf[bmf_cols][row[2]] = {"full" : row[3], "short": row[4]}
+
+    return bmf
 
 
 def Cities_Income_and_Nbr_Orgs(df, srch_city):
@@ -300,7 +535,7 @@ def Cities_Income_and_Nbr_Orgs(df, srch_city):
     event = st.altair_chart(chart,  use_container_width=True, 
                 key="alt_cities_income_and_nbr_org",   # alt_chart",
                 on_select="rerun")
-
+    
 
 def alt_city_pop_inc(df, srch_city):
 
@@ -454,6 +689,8 @@ def Income_and_Emphasis_Area (df, city):
     #    tooltip=[alt.Tooltip("INCOME_AMT:Q", format="$,.0f")]
     #)
     #st.altair_chart(chart, theme="streamlit", use_container_width=True)
+
+
 
 def rpt_cities_income_rank(ny_cities_df, city, nbr_results):
     # ------------------------------------
@@ -640,6 +877,7 @@ def rpt_cities_np_cnt_rank(ny_cities_df, city, nbr_results):
     #plt.show()
     st.pyplot(fig)
 
+
 def rpt_income_ntee(df, city, nbr_results):
     srch_city = city
     
@@ -684,19 +922,14 @@ def rpt_income_ntee(df, city, nbr_results):
     # plt.show()
     st.pyplot(fig)
 
+
 def rpt_orgs_category(df, city, bmf, category):
-    """ Simple Plot of Org Counts in various IRS Categories
-    
-    Parameters: 
-        df (dataframe): dataframe of NPs
-        city (str): City 
-        bmf (dict): 
-        category (str):  which category or column in df
-    
-    """
 
     # plot different BMF codes - by category
     # counting nonprofits
+
+    # debug
+    st.write(category)
 
     srch_city = city
   
@@ -762,248 +995,6 @@ def rpt_orgs_category(df, city, bmf, category):
     st.pyplot(fig)
 
 
-def load_rpt_config():
-    """ Reports Config
-    
-    Report Titles, Descriptions and def name
-    
-    Used to generate sidebar report list
-    try using def in the config to make it  could simplify 
-    would have to define all defs before loading report config
-
-    """
-
-    # "rpt_name" :  { "rpt_title"  : "Human Readable Title",
-    #    "rpt_def_name" : "name_of_def",
-    #    "rpt_desc" : "Explanation of Report"
-    #    },
-
-    rpt_config = {
-                  # "test" : { "rpt_title" : "Test Report",
-                  #  "rpt_def_name" : test_report,
-                  #  "rpt_desc" :    "See Relationship between Total NP Income and Number or NPs.  Click on bubble to select city"
-                  #},
-                    # folium implmentation too clunky.  figure out later
-                    #"Cities folium" : { "rpt_title" : "Cities Folium in NY",
-                    #"rpt_def_name" : cities_folium,
-                    #"rpt_desc" :    "Click on bubble to select city"
-                  # },
-    
-                    "Cities on Map" : { "rpt_title" : "Cities in NY",
-                    "rpt_def_name" : cities_on_map,
-                    "rpt_desc" :    "Click on bubble to select city"
-                  },
-
-                  "Rank Cities Income and Nbr Orgs" : { "rpt_title" : "Rank of Number of Nonprofits and Rank of Total Income",
-                    "rpt_def_name" : "not_implented",
-                    "rpt_desc" :    ("See Relationship between Total NP Income and Number or NPs. " 
-                                       " Click on bubble to select city")
-                                       
-                            },  
-              "Rank Cities by NP Income" : { "rpt_title" :  "Rank Cities by NP Income",
-                            "rpt_def_name" : rpt_cities_income_rank,
-                            "rpt_desc" : "Where the city ranks by Total Income of NPs"
-                            },                                                                                         
-              "Rank Cities by NP Org Count" : { "rpt_title" : "NP Org Count Rank",
-                            "rpt_def_name" : rpt_cities_np_cnt_rank,
-                            "rpt_desc" : "Where the city ranks in Number of NPs"
-                            },                                             
-              #"NP Income by Emphasis Area" : { "rpt_title" : "NP Income by Emphasis Area",
-              #              "rpt_def_name" : "name_of_def",
-              #              "rpt_desc" : "Duplicate Total Income of NPs by NTEE or Emphasis Area"
-              #              },
-              #"Orgs and Income" : { "rpt_title" : "Orgs and Income",
-              #              "rpt_def_name" : "name_of_def",
-              #              "rpt_desc" : "In category rpt, Count Orgs by IRS Income Categories"
-              #              },
-              #"Orgs and Affiliation" : { "rpt_title" : "Orgs and Affiliation",
-              #              "rpt_def_name" : "name_of_def",
-              #              "rpt_desc" : "In category rpt, Count Orgs by IRS Affiliation Category - Independent vs Group"
-              #              },
-            "Income and Emphasis Area" : { "rpt_title" :  "Income and Emphasis Area",
-                            "rpt_def_name" : "name_of_def",
-                            "rpt_desc" : "Income Reported for Orgs categorized by NTEE Code"
-                            },
-            
-            "Population and NP Income" : { "rpt_title" : "Population and NP Income",
-                            "rpt_def_name" : "alt_city_pop_inc",
-                            "rpt_desc" : "Relationship between population and total NP Income"
-                            },
-
-              "INCOME_CD" : { "rpt_title" : "IRS INCOME_CD",
-                            "rpt_def_name" : "name_of_def",
-                            "rpt_desc" : "Count Orgs by IRS Income Code"
-                            },
-              "AFFILIATION" : { "rpt_title" : "IRS AFFILIATION",
-                            "rpt_def_name" : "name_of_def",
-                            "rpt_desc" : "Count Orgs by IRS Affiliation Code"
-                            },
-                "ORGANIZATION" : { "rpt_title" : "ORGANIZATION",
-                            "rpt_def_name" : "name_of_def",
-                            "rpt_desc" : "Count Orgs by IRS by IRS Organization Code"
-                            },                                                   
-                "FOUNDATION" : { "rpt_title" : "FOUNDATION",
-                            "rpt_def_name" : "name_of_def",
-                            "rpt_desc" : "Count Orgs by IRS by IRS Affiliation Code"
-                            },
-                "SUBSECTION" : { "rpt_title" : "SUBSECTION",
-                            "rpt_def_name" : "name_of_def",
-                            "rpt_desc" : "Count Orgs by IRS Subsection Code"
-                            },
-                "ASSET_CD" : { "rpt_title" : "ASSET_CD",
-                            "rpt_def_name" : "name_of_def",
-                            "rpt_desc" : "Count Orgs by IRS by IRS Asset Code"
-                            },                                                                 
-            "DEDUCTIBILITY" : { "rpt_title" : "DEDUCTIBILITY",
-                            "rpt_def_name" : "name_of_def",
-                            "rpt_desc" : "Count Orgs by IRS Deductibility Code"
-                            }             
-          }
-                    
-    return rpt_config
-
-# --- end report definitions and configs
-
-@st.cache_data
-def get_np_local_df():
-    dtype = {"CLASSIFICATION": str,
-         "EIN" : str,
-         "ACTIVITY" : str,
-         "AFFILIATION" : str,
-         "ORGANIZATION" : str,
-         "FOUNDATION" : str,
-         "NTEE_CD" : str,
-         "RULING" : str,
-         "ZIP" : str,
-         "TAX_PERIOD" : str,
-         "GROUP" : str,
-         "cb_BASENAME" : int, 
-         "cb_BLKGRP" : int,
-         "cb_BLOCK": str,
-         "cb_GEOID" : str,
-         "ZipCd" : str
-         }
-
-    # get nonprofit data, then setup incremental index
-    np_local_df = pd.read_csv('data/np_local_df.csv')
-    np_local_df.sort_values(by=['NAME'], inplace=True)
-    np_local_df.reset_index(drop=True, inplace=True)
-
-    # start index at 1 for humans, when matching org to map number
-    # this matches the other local nonprofits apps, but used here 
-    np_local_df.index += 1
-
-    return np_local_df
-
-
-@st.cache_data
-def load_ny_cities_df():
-    # get nonprofit data, then setup incremental index
-    #TODO: new data structure...
-    #ny_cities_df = pd.read_csv('data/ny_cities_p_df.csv')
-
-    dtypes = {'inc_rank' : int,	
-             'nbr_np_rank' : int,
-             'dc_wikidataId' : str,
-             'dc_usCensusGeoId' : str,
-             #'city_population' : int
-             }
-
-    ny_cities_df = pd.read_csv('data/bmf_cities_p_df.csv', dtype=dtypes)
-
-    return ny_cities_df
-
-
-@st.cache_data
-def load_city_list(ny_cities_df):
-    #city_list = ["(all)"] + ny_cities_df['CITY'].sort_values().to_list()
-    city_list = ["(all)"] + ny_cities_df['major_city'].sort_values().to_list()
-    #city_list = ny_cities_df['CITY'].sort_values().to_list()
-    return city_list
-
-
-@st.cache_data
-def load_np_ny_p_df():
-
-    #TODO: change to all_ny_np_df... but would have to modify 
-    #       existing report with code lookups...
-    dtypes = {"CLASSIFICATION": str,
-         "EIN" : str,
-         "ACTIVITY" : str,
-         #"AFFILIATION" : str,
-         #"ORGANIZATION" : str,
-         #"FOUNDATION" : str,
-         "NTEE_CD" : str,
-         "RULING" : str,
-         "ZIP" : str,
-         "TAX_PERIOD" : str,
-         #"GROUP" : str,
-         "zipcode" : str
-
-         }
-
-    # get nonprofit data, then setup incremental index
-    # np_ny_p_df = pd.read_csv('data/np_ny_p_df.csv')
-    np_ny_p_df = pd.read_csv('data/all_ny_np_df.csv', dtype=dtypes)
-
-    # a way to insert propublica link
-    # TODO: add the column in colab prep steps
-    pp_link = "https://projects.propublica.org/nonprofits/organizations/" # EIN
-
-    np_ny_p_df['pp_link'] = np_ny_p_df['EIN'].apply(
-                    lambda x: pp_link + x
-    )
-
-    return np_ny_p_df
-
-@st.cache_data
-def load_ntee():
-    ntee = {}
-    eo = {}
-
-    with open('data/NCCS_NTEE.csv', mode='r') as infile:
-        reader = csv.reader(infile)
-        for row in reader:
-            # print(f"0 {row[0]}   1 {row[1]}    2 {row[2]}" )
-            ntee[row[0]] = [row[1], row[2]]
-    
-    return ntee
-
-@st.cache_data
-def load_bmf_codes():
-    """ Load lookup values for IRS codes in Business Master File (BMF)
-    
-    Returns: bmf (dict)
-
-    """
-
-    # Nested dictionary, like this 
-    #bmf = { 'INCOME_CD': {'code1': 'XX', 
-    #                              'codevalue1': '19', 
-    #                              {'short' : 'brief definition', 
-    #                              'full' :  'full definition'}
-
-    bmf = {}
-    bmf_set = set() # get each unique BMF field/column name
-    all_rows = []
-
-    with open('data/IRS_BMF_Lookups_wShortDesc.csv', mode='r') as infile:
-        reader = csv.reader(infile)
-        for row in reader:
-            # print(f"0 {row[0]}   1 {row[1]}    2 {row[2]}  3 {row[3]}" )
-            bmf_set.add(row[0])  # get unique column names
-            all_rows.append(row) # get rows to add to column name dict
-
-    for bmf_cols in bmf_set:
-        #print ("Loading Data for column: ", bmf_cols)
-        bmf[bmf_cols] = {}
-        for row in all_rows:
-            if row[0] == bmf_cols:
-                #bmf[bmf_cols][row[2]] = row[3]
-                bmf[bmf_cols][row[2]] = {"full" : row[3], "short": row[4]}
-
-    return bmf
-    
 def show_bmf_lookups(bmf, category):
 
 
@@ -1044,6 +1035,7 @@ def show_bmf_lookups(bmf, category):
     #c = pd.DataFrame(bmf[category])
     #st.table(c.T)
 
+
 def data_profile(ny_cities_df, np_ny_p_df ):
     app_summary = """
     
@@ -1082,6 +1074,9 @@ def data_profile(ny_cities_df, np_ny_p_df ):
     
     """    
     st.markdown(data_summary)
+
+
+
 
 
 def city_bmf_profile(city, ny_cities_df):
@@ -1193,8 +1188,8 @@ def city_bmf_profile(city, ny_cities_df):
     # ny_cities_df[filt][flds]
 
 def ein_click():
-    #TODO: remove
     st.write(st.session_state)
+
 
 def list_city_nps(city, np_ny_p_df):
     flds = ['pp_link',
@@ -1256,6 +1251,7 @@ def list_city_nps(city, np_ny_p_df):
 
 def do_sidebar(reports_list, city_list, selected_city):
 
+
     with st.sidebar:
         select_tab, help_tab = st.tabs(["Create Plot", "Help"])
 
@@ -1281,24 +1277,19 @@ def do_sidebar(reports_list, city_list, selected_city):
 
         with help_tab:
             help_md = """
+            This app is a window into all the active Nonprofits in New York State
             
-            This app is a window into all the active Nonprofits (over 100k nonprofits in 1522 cities) 
-            in New York State.
+            The IRS Business Master File (BMF) lists key info about all the active 
+            Nonprofits.  
 
-            In left sidebar, select a plot and click "Show Button."
+            etc
 
-            The City of Interest isn't relevant to every report.
-
-            In some plots, user can click on cities to change city of interest.
-
-            A city profile and list of NPs in that city is presented under plots 
-            where City of Interest has been selected
-                        
             """
             st.markdown (help_md)
 
 
     return report_name, city, nbr_results
+
 
 def main():
     st.set_page_config(APP_TITLE) #, layout="wide")
@@ -1326,12 +1317,10 @@ def main():
         st.session_state['blueish'] = "#54b1f0"
         st.session_state['orangey'] = "#f0b056"
 
-        st.session_state['highlight_color'] = "#54b1f0"
-        st.session_state['point_color'] = "#f0b056"
-
     # load reports list, configs
     rpt_config = load_rpt_config()
     rpt_names_list = list(rpt_config.keys())
+
     reports_list = ["Select..."] + rpt_names_list 
 
     # ----------------------------- 
@@ -1339,7 +1328,7 @@ def main():
     # or has clicked on a new city on a plot
     
     # debug
-    # st.write(st.session_state)
+    st.write(st.session_state)
     
     #NOTE:  so far, report can only be changed in sidebar, but some future 
     # iteration would allow user to jump to related plots from a plot
@@ -1349,6 +1338,7 @@ def main():
 
         # when formsubmitter is true, then user clicked on sidebar
         if st.session_state["FormSubmitter:report_params-Show Plot"]:
+            # user selection from sidebar
             selected_rpt = st.session_state["sb_rpt_name_key"]
             selected_city = st.session_state["sb_city_key"]
 
@@ -1357,8 +1347,7 @@ def main():
         # handle user clicks on altair/vega plots, get new selected city  
         # session state has the altair chart key with city in point selection
 
-        #TODO: use report config, prob use rpt_def_name in session
-        # making all reports return city, would only need to call report with return 
+        #TODO: use report config 
         elif "alt_city_pop_inc" in st.session_state: 
             selected_city = st.session_state["alt_city_pop_inc"]["selection"]["point_selection"][0]["major_city"] 
             #st.write(st.session_state["alt_city_pop_inc"]["selection"]["point_selection"][0]["major_city"])
@@ -1401,14 +1390,14 @@ def main():
 
     (report_name, selected_city, nbr_results) = do_sidebar(reports_list, city_list, selected_city)
     
-    # show plot title and description 
+    # show plot name and description 
     if report_name != "Select...":
         #rpt_md = "#### "+ rpt_config[report_name]["rpt_title"]
         #rpt_md += "###### " + rpt_config[report_name]["rpt_desc"]
         st.markdown ("#### "+ rpt_config[report_name]["rpt_title"])
         st.markdown ("###### " + rpt_config[report_name]["rpt_desc"], unsafe_allow_html=True)
-        
-    # Do the selected report/plot
+        #st.write (rpt_config[report_name]["rpt_desc"])
+    # show selected plot
     # experiment with putting def names in report config
     if report_name in ["test", "Cities on Map"]:
         #TODO:add return values? 
@@ -1435,36 +1424,29 @@ def main():
 
     elif report_name == "Rank Cities by NP Org Count":
         rpt_cities_np_cnt_rank(ny_cities_df, selected_city, nbr_results)
-
-    # removed dupe from config    
     elif report_name == "NP Income by Emphasis Area":
         rpt_income_ntee(np_ny_p_df, selected_city, nbr_results)
-
-
-    #elif report_name == "Orgs and Income":
+    elif report_name == "Orgs and Income":
         # rpt_income_code(np_ny_p_df, city, bmf)
-    #    rpt_orgs_category(np_ny_p_df, selected_city, bmf, 'INCOME_CD')
+        rpt_orgs_category(np_ny_p_df, selected_city, bmf, 'INCOME_CD')
         #show_bmf_lookups(bmf, 'INCOME_CD')
-    #elif report_name == "Orgs and Affiliation":
-    #    rpt_orgs_category(np_ny_p_df, selected_city, bmf, 'AFFILIATION')
-    #    show_bmf_lookups(bmf, 'AFFILIATION')
-    
-    
+    elif report_name == "Orgs and Affiliation":
+        rpt_orgs_category(np_ny_p_df, selected_city, bmf, 'AFFILIATION')
+        show_bmf_lookups(bmf, 'AFFILIATION')
+    elif report_name in ['INCOME_CD', 'AFFILIATION', 'ORGANIZATION', 'FOUNDATION', 'ASSET_CD', 
+                         'SUBSECTION', 'DEDUCTIBILITY']:
+        rpt_orgs_category(np_ny_p_df, selected_city, bmf, report_name)
+        show_bmf_lookups(bmf, report_name)
     elif report_name == "Income and Emphasis Area":
         Income_and_Emphasis_Area(np_ny_p_df, selected_city)
-    
     elif report_name == "Rank Cities Income and Nbr Orgs":
         Cities_Income_and_Nbr_Orgs(ny_cities_df, selected_city)
 
     elif report_name == "Population and NP Income":
         alt_city_pop_inc(ny_cities_df, selected_city)
 
-    #TODO:decide how to handle these count orgs by IRS code
-    elif report_name in ['INCOME_CD', 'AFFILIATION', 'ORGANIZATION', 'FOUNDATION', 'ASSET_CD', 
-                         'SUBSECTION', 'DEDUCTIBILITY']:
-        rpt_orgs_category(np_ny_p_df, selected_city, bmf, report_name)
-        show_bmf_lookups(bmf, report_name)
-
+    #st.write (rpt_config["Cities:  Income and Nbr Orgs"]["rpt_title"])
+    #st.write( rpt_config["Cities:  Income and Nbr Orgs"]["rpt_desc"])
 
     if selected_city != '(all)':
         city_bmf_profile(selected_city, ny_cities_df)
