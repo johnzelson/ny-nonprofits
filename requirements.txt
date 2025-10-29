@@ -3,4 +3,6 @@ pandas
 matplotlib
 streamlit-folium
 vega_datasets
+altair
+
 
