@@ -1061,7 +1061,7 @@ def data_profile(ny_cities_df, np_ny_p_df ):
     This app is an offshoot of an effort to look at more detailed info on nonprofits
     in a local area:
     - [Nonprofits in Cortland, NY](https://local-nonprofits-jzelson.streamlit.app/) 
-    - [Visualization of People connections in Cortland](https://johnzelson-local-nonprofits-graph-streamlit-app-zuq6hl.streamlit.app/)
+    - [Visualization of People connections in Cortland](https://peoplegraphv06py-hisrgaob9ctnuenlbjygxu.streamlit.app/)
 
     It would be interesting to make an app that is easily refreshed and 
     extended that would enable analysis and discovery about community. (language)
